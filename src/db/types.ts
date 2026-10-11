@@ -97,7 +97,8 @@ export interface Page extends SyncedRecord, PageContent {
 
 // ───────────────────────── PDF documents ─────────────────────────
 
-export type FileSyncStatus = 'local' | 'uploaded' | 'remote-only' | 'missing'
+/** 'too-large': exceeds the cloud upload limit, kept on this device only. */
+export type FileSyncStatus = 'local' | 'uploaded' | 'remote-only' | 'missing' | 'too-large'
 
 export interface PdfDocument extends SyncedRecord {
   title: string

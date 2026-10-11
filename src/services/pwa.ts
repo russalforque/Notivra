@@ -2,6 +2,9 @@ import { Capacitor } from '@capacitor/core'
 import { toast } from '../components/ui/toast'
 import { hasUnsavedWork } from './saveStatus'
 
+let updateAccepted = false
+let reloading = false
+
 /**
  * Registers the app-shell service worker so the app loads offline after a refresh.
  * Not used in dev (assets are served by Vite) or in the native app (assets ship in the APK).
@@ -23,6 +26,7 @@ export function registerServiceWorker(): void {
                   promptUpdate(worker)
                   return
                 }
+                updateAccepted = true
                 worker.postMessage('SKIP_WAITING')
               },
             },
@@ -35,9 +39,10 @@ export function registerServiceWorker(): void {
             if (worker.state === 'installed' && navigator.serviceWorker.controller) promptUpdate(worker)
           })
         })
-        let reloading = false
+        // Reload only when the user accepted an update. The first install also fires
+        // controllerchange (clients.claim) — reloading then would discard in-progress work.
         navigator.serviceWorker.addEventListener('controllerchange', () => {
-          if (reloading) return
+          if (!updateAccepted || reloading) return
           reloading = true
           window.location.reload()
         })

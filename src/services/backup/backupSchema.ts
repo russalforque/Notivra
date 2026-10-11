@@ -100,7 +100,7 @@ export const backupSchemas = {
     sha256: z.string(),
     thumbnail: z.string().nullable(),
     remotePath: z.string().nullable(),
-    fileSyncStatus: z.enum(['local', 'uploaded', 'remote-only', 'missing']),
+    fileSyncStatus: z.enum(['local', 'uploaded', 'remote-only', 'missing', 'too-large']),
     lastPage: z.number().int().min(0),
     lastScale: num.positive(),
     rotation: z.union([z.literal(0), z.literal(90), z.literal(180), z.literal(270)]),

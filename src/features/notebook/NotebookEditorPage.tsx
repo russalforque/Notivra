@@ -485,13 +485,13 @@ function Editor({ notebook }: { notebook: Notebook }) {
             <Redo2 className="size-5" />
           </IconButton>
           <div className="mx-1 hidden h-6 w-px bg-border sm:block" />
-          <IconButton label="Zoom out" className="hidden sm:inline-flex" disabled={zoom <= 0.5} onClick={() => setZoom((z) => [...ZOOM_LEVELS].reverse().find((l) => l < z) ?? z)}>
+          <IconButton label="Zoom out" className="max-sm:hidden" disabled={zoom <= 0.5} onClick={() => setZoom((z) => [...ZOOM_LEVELS].reverse().find((l) => l < z) ?? z)}>
             <ZoomOut className="size-5" />
           </IconButton>
           <button type="button" className="hidden w-12 text-center text-xs font-medium text-muted tabular-nums sm:block" onClick={() => setZoom(1)} title="Fit to width">
             {Math.round(zoom * 100)}%
           </button>
-          <IconButton label="Zoom in" className="hidden sm:inline-flex" disabled={zoom >= 3} onClick={() => setZoom((z) => ZOOM_LEVELS.find((l) => l > z) ?? z)}>
+          <IconButton label="Zoom in" className="max-sm:hidden" disabled={zoom >= 3} onClick={() => setZoom((z) => ZOOM_LEVELS.find((l) => l > z) ?? z)}>
             <ZoomIn className="size-5" />
           </IconButton>
           <Menu

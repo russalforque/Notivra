@@ -75,9 +75,24 @@ export async function importPdf(
   }
 }
 
-export async function loadDocumentBytes(doc: Pick<PdfDocument, 'fileKey' | 'fileSyncStatus'>): Promise<Uint8Array> {
+type RemoteFileFetcher = (doc: Pick<PdfDocument, 'id' | 'fileKey' | 'remotePath'>) => Promise<Uint8Array>
+let remoteFetcher: RemoteFileFetcher | null = null
+
+/** Registered by the sync service when signed in, so cloud-only PDFs download on open. */
+export function setRemoteFileFetcher(fetcher: RemoteFileFetcher | null): void {
+  remoteFetcher = fetcher
+}
+
+export async function loadDocumentBytes(doc: Pick<PdfDocument, 'id' | 'fileKey' | 'fileSyncStatus' | 'remotePath'>): Promise<Uint8Array> {
   const bytes = await getFileStore().get(doc.fileKey)
   if (!bytes) {
+    if (doc.remotePath && remoteFetcher) {
+      try {
+        return await remoteFetcher(doc)
+      } catch (error) {
+        throw new AppError('This PDF is in your cloud account but could not be downloaded. Check your connection and try again.', { cause: error })
+      }
+    }
     if (doc.fileSyncStatus === 'remote-only') {
       throw new AppError('This PDF is stored in your cloud account and has not been downloaded to this device yet. Connect to the internet and sync.')
     }

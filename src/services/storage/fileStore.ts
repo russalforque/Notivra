@@ -112,6 +112,8 @@ export function setFileStore(store: FileStore | null): void {
 export async function saveExport(fileName: string, bytes: Uint8Array, mimeType: string): Promise<string> {
   if (Capacitor.isNativePlatform()) {
     const path = `Notivra/${fileName}`
+    // Needed only on Android 10 and older (public Documents); newer versions grant it implicitly.
+    await Filesystem.requestPermissions().catch(() => undefined)
     await Filesystem.writeFile({
       path,
       data: bytesToBase64(bytes),

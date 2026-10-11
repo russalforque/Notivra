@@ -10,6 +10,8 @@ import { DAY_MS, formatRelative } from '../../lib/time'
 import { useNow } from '../../hooks/useNow'
 import { useDocuments, useNotebooks, useSubjects } from '../library/hooks'
 import { NotebookDialog } from '../library/NotebookDialog'
+import { ProgressSummaryCard } from '../progress/ProgressSummaryCard'
+import { DueReviewsCard } from '../study/DueReviewsCard'
 
 function greeting(): string {
   const h = new Date().getHours()
@@ -75,6 +77,8 @@ export function HomePage() {
       )}
 
       <div className="grid gap-4 lg:grid-cols-3">
+        <ProgressSummaryCard />
+        <DueReviewsCard />
         <Card className="flex flex-col justify-between gap-3 p-5">
           <div className="flex items-center gap-3">
             <span className="flex size-10 items-center justify-center rounded-xl bg-primary-soft text-primary">

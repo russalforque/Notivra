@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Notivra</string>
+    <string name="title_activity_main">Notivra</string>
+    <string name="package_name">app.notivra.notebook</string>
+    <string name="custom_url_scheme">app.notivra.notebook</string>
+</resources>

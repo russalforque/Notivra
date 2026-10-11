@@ -121,7 +121,7 @@ function Workspace({ doc }: { doc: PdfDocument }) {
   const queue = useRef<Op[]>([])
   const anchor = useRef({ index: doc.lastPage, fraction: 0 })
   const restored = useRef(false)
-  const fileRef = useRef({ fileKey: doc.fileKey, fileSyncStatus: doc.fileSyncStatus })
+  const fileRef = useRef({ id: doc.id, fileKey: doc.fileKey, fileSyncStatus: doc.fileSyncStatus, remotePath: doc.remotePath })
 
   const setPrefs = (patch: Partial<PdfToolPrefs>) => {
     setPrefsState((p) => {
@@ -419,19 +419,19 @@ function Workspace({ doc }: { doc: PdfDocument }) {
             <Redo2 className="size-5" />
           </IconButton>
           <div className="mx-1 hidden h-6 w-px bg-border sm:block" />
-          <IconButton label="Zoom out" className="hidden sm:inline-flex" onClick={() => zoomBy(0.8)} disabled={scale <= MIN_SCALE}>
+          <IconButton label="Zoom out" className="max-sm:hidden" onClick={() => zoomBy(0.8)} disabled={scale <= MIN_SCALE}>
             <ZoomOut className="size-5" />
           </IconButton>
           <button type="button" className="hidden w-14 text-center text-xs font-medium text-muted tabular-nums sm:block" onClick={() => setScaleMode(0)} title="Fit to width">
             {scaleMode === 0 ? 'Fit' : `${Math.round(scale * 100)}%`}
           </button>
-          <IconButton label="Zoom in" className="hidden sm:inline-flex" onClick={() => zoomBy(1.25)} disabled={scale >= MAX_SCALE}>
+          <IconButton label="Zoom in" className="max-sm:hidden" onClick={() => zoomBy(1.25)} disabled={scale >= MAX_SCALE}>
             <ZoomIn className="size-5" />
           </IconButton>
           <IconButton label="Rotate view" onClick={() => setUserRotation((r) => (r + 90) % 360)}>
             <RotateCw className="size-5" />
           </IconButton>
-          <Button size="sm" variant="soft" className="ml-1 hidden md:inline-flex" icon={<FileDown className="size-4" />} loading={exporting} onClick={() => void exportPdf()}>
+          <Button size="sm" variant="soft" className="ml-1 max-md:hidden" icon={<FileDown className="size-4" />} loading={exporting} onClick={() => void exportPdf()}>
             Export
           </Button>
           <Menu

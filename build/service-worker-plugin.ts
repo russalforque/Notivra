@@ -80,13 +80,13 @@ self.addEventListener('fetch', (event) => {
   if (request.mode === 'navigate') {
     // Network first so deployments are picked up; fall back to the cached shell offline.
     event.respondWith(
-      fetch(request).catch(() => caches.match('/index.html', { cacheName: CACHE }).then((r) => r || Response.error())),
+      fetch(request).catch(() => caches.match('/index.html', { cacheName: CACHE, ignoreVary: true }).then((r) => r || Response.error())),
     );
     return;
   }
 
   event.respondWith(
-    caches.match(request, { cacheName: CACHE, ignoreSearch: true }).then((cached) => cached || fetch(request)),
+    caches.match(request, { cacheName: CACHE, ignoreSearch: true, ignoreVary: true }).then((cached) => cached || fetch(request)),
   );
 });
 `

@@ -7,6 +7,7 @@ import { getSetting, setSetting } from '../services/settings'
 import { requestPersistentStorage } from '../services/storage/quota'
 import { hasUnsavedWork } from '../services/saveStatus'
 import { Spinner } from '../components/ui/misc'
+import { startSyncService } from '../services/sync/syncService'
 
 type BootState = { kind: 'loading' } | { kind: 'ready' } | { kind: 'error'; message: string }
 
@@ -34,6 +35,7 @@ export function Bootstrap({ children }: { children: ReactNode }) {
       try {
         await db.open()
         await seedAchievementCatalog()
+        startSyncService()
         if (!cancelled) setState({ kind: 'ready' })
       } catch (error) {
         console.error('Database open failed', error)
