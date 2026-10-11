@@ -1,0 +1,154 @@
+@import 'tailwindcss';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/*
+ * Design tokens. Components use semantic names (bg-surface, text-muted…) so both themes are
+ * defined in one place. No web fonts are loaded: the app must look right fully offline.
+ */
+:root {
+  --bg: #f7f6f3;
+  --surface: #ffffff;
+  --surface-2: #f1efea;
+  --surface-3: #e7e4dd;
+  --border: #e3e0d8;
+  --fg: #1d1b26;
+  --muted: #6a6778;
+  --primary: #4f46e5;
+  --primary-hover: #4338ca;
+  --primary-soft: #eef0ff;
+  --primary-fg: #ffffff;
+  --accent: #f59e0b;
+  --success: #059669;
+  --success-soft: #e7f8f1;
+  --warning: #b45309;
+  --warning-soft: #fff6e5;
+  --danger: #dc2626;
+  --danger-soft: #fdecec;
+  --ring: #6366f1;
+  --paper: #fffef9;
+  --paper-line: #c9d4ea;
+  color-scheme: light;
+}
+
+.dark {
+  --bg: #0e1016;
+  --surface: #161922;
+  --surface-2: #1d212c;
+  --surface-3: #272c39;
+  --border: #2a2f3c;
+  --fg: #e9e9f1;
+  --muted: #9b9bb0;
+  --primary: #818cf8;
+  --primary-hover: #a5b4fc;
+  --primary-soft: #23264a;
+  --primary-fg: #0e1016;
+  --accent: #fbbf24;
+  --success: #34d399;
+  --success-soft: #0f2c24;
+  --warning: #fbbf24;
+  --warning-soft: #2e2511;
+  --danger: #f87171;
+  --danger-soft: #341a1d;
+  --ring: #a5b4fc;
+  /* The notebook page stays paper-coloured in dark mode so ink colours remain accurate. */
+  --paper: #fdfcf7;
+  --paper-line: #c9d4ea;
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-surface-3: var(--surface-3);
+  --color-border: var(--border);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-soft: var(--primary-soft);
+  --color-primary-fg: var(--primary-fg);
+  --color-accent: var(--accent);
+  --color-success: var(--success);
+  --color-success-soft: var(--success-soft);
+  --color-warning: var(--warning);
+  --color-warning-soft: var(--warning-soft);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+  --color-ring: var(--ring);
+  --color-paper: var(--paper);
+  --font-sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-hand: 'Segoe Print', 'Bradley Hand', 'Comic Sans MS', ui-rounded, cursive;
+}
+
+@layer base {
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -webkit-tap-highlight-color: transparent;
+  }
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+  button:not(:disabled),
+  [role='button']:not([aria-disabled='true']) {
+    cursor: pointer;
+  }
+  dialog::backdrop {
+    background: rgb(10 10 20 / 0.45);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.animate-toast-in {
+  animation: toast-in 160ms ease-out;
+}
+
+@keyframes card-flip-in {
+  from {
+    opacity: 0;
+    transform: rotateX(-12deg);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.animate-card-in {
+  animation: card-flip-in 180ms ease-out;
+}
+
+/* Safe-area padding for Android gesture bars / notches. */
+.pb-safe {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+.pt-safe {
+  padding-top: env(safe-area-inset-top);
+}
